@@ -1,11 +1,6 @@
 FROM extvos/centos
-
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
-
 ENV NGINX_VERSION 1.8.0
-# 1.9.3
-# http://nginx.org/download/nginx-1.9.3.tar.gz
-# Installing packages.
 
 RUN rpm -iUvh http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm \
 	&& yum install -y nginx-${NGINX_VERSION}
