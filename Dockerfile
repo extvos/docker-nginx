@@ -1,9 +1,8 @@
-FROM extvos/centos
+FROM extvos/alpine
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
-ENV NGINX_VERSION 1.8.0
+ENV NGINX_VERSION 1.10.1
 
-RUN rpm -iUvh http://nginx.org/packages/centos/6/noarch/RPMS/nginx-release-centos-6-0.el6.ngx.noarch.rpm \
-	&& yum install -y nginx-${NGINX_VERSION}
+RUN apk update && apk add nginx
 
 RUN sed -i 's/^worker_processes.*/worker_processes\ 4;/g' /etc/nginx/nginx.conf \
 	&& mkdir /var/lib/proxy_temp /var/lib/proxy_cache \
@@ -15,6 +14,7 @@ RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
 VOLUME /usr/share/nginx/html
 VOLUME /etc/nginx/conf.d
+VOLUME /etc/nginx/default.d
 VOLUME /var/lib/proxy_temp
 VOLUME /var/lib/proxy_cache
 
