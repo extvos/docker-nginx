@@ -2,7 +2,7 @@ FROM extvos/alpine
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 ENV NGINX_VERSION 1.10.3
 
-RUN apk update && apk add nginx nginx-common nginx-rtmp nginx-doc nginx-lua nginx-initscripts
+RUN apk update && apk add nginx nginx-common nginx-doc nginx-initscripts
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
