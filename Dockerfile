@@ -23,7 +23,7 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log
 RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
 VOLUME /usr/share/nginx/html
-VOLUME /etc/nginx/modules
+VOLUME /etc/nginx/modules.d
 VOLUME /etc/nginx/conf.d
 VOLUME /etc/nginx/sites.d
 VOLUME /var/lib/proxy_temp
