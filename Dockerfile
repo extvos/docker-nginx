@@ -15,7 +15,7 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/lib/proxy_temp /var/lib/proxy_cache /run/nginx /var/log/nginx /etc/nginx/conf.d /etc/nginx/sites.d \
 	&& chown -Rcf nginx.nginx /var/lib/proxy_temp /var/lib/proxy_cache /run/nginx/ /var/log/nginx \
-	&& rm -rf /etc/nginx/conf.d/*
+	&& rm -rf /etc/nginx/conf.d/* && mv /etc/nginx/modules /etc/nginx/modules.d
 
 COPY default.conf /etc/nginx/sites.d/default.conf
 # forward request logs to Docker log collector
