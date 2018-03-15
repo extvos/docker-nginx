@@ -2,7 +2,7 @@ FROM extvos/alpine:3.6
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 ENV NGINX_VERSION 1.10.3
 
-RUN apk update && apk add nginx \
+RUN apk update && apk add --no-cache nginx \
 						  nginx-doc \
                           nginx-mod-http-lua-upstream \
                           nginx-mod-http-lua \
