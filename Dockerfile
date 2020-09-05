@@ -1,6 +1,5 @@
-FROM extvos/alpine:3.6
+FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
-ENV NGINX_VERSION 1.10.3
 
 RUN apk update && apk add --no-cache nginx \
 						  nginx-doc \
@@ -9,12 +8,22 @@ RUN apk update && apk add --no-cache nginx \
                           nginx-mod-rtmp \
                           nginx-mod-http-image-filter \
                           nginx-mod-http-set-misc \
-                          nginx-mod-stream
+                          nginx-mod-stream \
+    && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN mkdir -p /var/lib/proxy_temp /var/lib/proxy_cache /run/nginx /var/log/nginx /etc/nginx/conf.d /etc/nginx/sites.d \
-	&& chown -Rcf nginx.nginx /var/lib/proxy_temp /var/lib/proxy_cache /run/nginx/ /var/log/nginx \
+RUN mkdir -p /var/lib/proxy_temp \
+             /var/lib/proxy_cache \
+             /run/nginx \
+             /var/log/nginx \
+             /etc/nginx/conf.d \
+             /etc/nginx/sites.d \
+	&& chown -Rcf nginx.nginx \
+	         /var/lib/proxy_temp \
+	         /var/lib/proxy_cache \
+	         /run/nginx/ \
+	         /var/log/nginx \
 	&& rm -rf /etc/nginx/conf.d/* && mv /etc/nginx/modules /etc/nginx/modules.d
 
 COPY default.conf /etc/nginx/sites.d/default.conf
@@ -30,4 +39,7 @@ VOLUME /var/lib/proxy_temp
 VOLUME /var/lib/proxy_cache
 
 EXPOSE 80 443
+
+STOPSIGNAL SIGTERM
+
 CMD ["nginx", "-g", "daemon off;"]
