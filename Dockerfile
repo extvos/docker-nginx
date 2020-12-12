@@ -3,7 +3,8 @@ MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
 RUN apk update && apk add --no-cache nginx nginx-doc \
     && apk list -P nginx-mod-* | grep -o '<[a-z0-9-]*>' | sed 's/[<|>]//g' | xargs apk add --no-cache \
-    && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
+    && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig \
+    && mv /etc/nginx/modules.d /etc/nginx/modules.installed
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
