@@ -1,14 +1,8 @@
 FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
-RUN apk update && apk add --no-cache nginx \
-						  nginx-doc \
-                          nginx-mod-http-lua-upstream \
-                          nginx-mod-http-lua \
-                          nginx-mod-rtmp \
-                          nginx-mod-http-image-filter \
-                          nginx-mod-http-set-misc \
-                          nginx-mod-stream \
+RUN apk update && apk add --no-cache nginx nginx-doc \
+    && apk list -P nginx-mod-* | grep -o '<[a-z0-9-]*>' | sed 's/[<|>]//g' | xargs apk add --no-cache \
     && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
 COPY nginx.conf /etc/nginx/nginx.conf
