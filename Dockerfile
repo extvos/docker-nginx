@@ -1,7 +1,7 @@
 FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
-RUN apk update && apk add --no-cache nginx \
+RUN apk update && apk add --no-cache tini nginx \
 						  nginx-doc \
                           nginx-mod-http-lua-upstream \
                           nginx-mod-http-lua \
@@ -34,6 +34,7 @@ RUN ln -sf /dev/stderr /var/log/nginx/error.log
 VOLUME /usr/share/nginx/html
 VOLUME /etc/nginx/modules.d
 VOLUME /etc/nginx/conf.d
+VOLUME /etc/nginx/sites.templates
 VOLUME /etc/nginx/sites.d
 VOLUME /var/lib/proxy_temp
 VOLUME /var/lib/proxy_cache
@@ -41,5 +42,5 @@ VOLUME /var/lib/proxy_cache
 EXPOSE 80 443
 
 STOPSIGNAL SIGTERM
-
+ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["nginx", "-g", "daemon off;"]
