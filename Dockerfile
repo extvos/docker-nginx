@@ -1,7 +1,7 @@
-FROM extvos/alpine:latest
+FROM extvos/alpine:s6
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
-RUN apk update && apk add --no-cache tini nginx \
+RUN apk update && apk add --no-cache nginx \
 						  nginx-doc \
                           nginx-mod-http-lua-upstream \
                           nginx-mod-http-lua \
@@ -26,6 +26,9 @@ RUN mkdir -p /var/lib/proxy_temp \
 	         /var/log/nginx \
 	&& rm -rf /etc/nginx/conf.d/* && mv /etc/nginx/modules /etc/nginx/modules.d
 
+ADD fix-attrs.d /etc/fix-attrs.d
+ADD services.d /etc/services.d
+
 COPY default.conf /etc/nginx/sites.d/default.conf
 # forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log
@@ -38,9 +41,6 @@ VOLUME /etc/nginx/sites.templates
 VOLUME /etc/nginx/sites.d
 VOLUME /var/lib/proxy_temp
 VOLUME /var/lib/proxy_cache
+VOLUME /var/log/nginx
 
 EXPOSE 80 443
-
-STOPSIGNAL SIGTERM
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["nginx", "-g", "daemon off;"]
