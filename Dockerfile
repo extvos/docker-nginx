@@ -24,7 +24,7 @@ RUN mkdir -p /var/lib/proxy_temp \
 	         /var/lib/proxy_cache \
 	         /run/nginx/ \
 	         /var/log/nginx \
-	&& rm -rf /etc/nginx/conf.d/* && mv /etc/nginx/modules /etc/nginx/modules.d
+	&& rm -rf /etc/nginx/conf.d/* && mkdir /etc/nginx/modules.d
 
 ADD fix-attrs.d /etc/fix-attrs.d
 ADD services.d /etc/services.d
