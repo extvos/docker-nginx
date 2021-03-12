@@ -1,0 +1,4 @@
+#!/usr/bin/execlineb -P
+if [ -n "${CONSUL_ADDR}"]; then
+	/usr/local/bin/consul-template -consul-addr=${CONSUL_ADDR}
+fi
