@@ -31,6 +31,7 @@ ENV CONSULE_RELEASE=${CONSULE_RELEASE}
 ADD ${CONSULE_RELEASE} /tmp/consul-template.tgz
 ADD fix-attrs.d /etc/fix-attrs.d
 ADD services.d /etc/services.d
+ADD consul.d/default.cfg /etc/consul.cfg
 
 COPY default.conf /etc/nginx/sites.d/default.conf
 # forward request logs to Docker log collector
