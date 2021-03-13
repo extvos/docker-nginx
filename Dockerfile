@@ -51,4 +51,4 @@ VOLUME /var/log/nginx
 
 EXPOSE 80 443
 
-ENTRYPOINT ["/sbin/tini", "--", "/entrypoint.sh"]
+CMD ["/sbin/tini", "--", "/entrypoint.sh"]
