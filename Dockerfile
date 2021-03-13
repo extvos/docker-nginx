@@ -32,8 +32,10 @@ ADD ${CONSULE_RELEASE} /tmp/consul-template.tgz
 ADD fix-attrs.d /etc/fix-attrs.d
 ADD services.d /etc/services.d
 ADD consul.d/default.cfg /etc/consul.cfg
+ADD consul.d/startup /etc/consul.startup
 
 COPY default.conf /etc/nginx/sites.d/default.conf
+
 # forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 RUN tar zxf /tmp/consul-template.tgz -C /usr/local/bin && rm -f /tmp/consul-template.tgz

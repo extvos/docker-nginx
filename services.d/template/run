@@ -1,4 +1,2 @@
 #!/usr/bin/execlineb -P
-if [ -n "${CONSUL_ADDR}"]; then
-	/usr/local/bin/consul-template -consul-addr=${CONSUL_ADDR} -config=/etc/consul.cfg
-fi
+sh -c /etc/consul.startup
