@@ -1,15 +1,9 @@
 FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
-RUN apk update && apk add --no-cache nginx \
-						  nginx-doc \
-                          nginx-mod-http-lua-upstream \
-                          nginx-mod-http-lua \
-                          nginx-mod-rtmp \
-                          nginx-mod-http-image-filter \
-                          nginx-mod-http-set-misc \
-                          nginx-mod-stream \
-    && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
+RUN apk update && apk add --no-cache nginx nginx-doc \
+    && apk list -P nginx-mod-* | grep -o '<[a-z0-9-]*>' | sed 's/[<|>]//g' | xargs apk add --no-cache \
+    && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig 
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
@@ -24,7 +18,7 @@ RUN mkdir -p /var/lib/proxy_temp \
 	         /var/lib/proxy_cache \
 	         /run/nginx/ \
 	         /var/log/nginx \
-	&& rm -rf /etc/nginx/conf.d/* && mv /etc/nginx/modules /etc/nginx/modules.d
+	&& rm -rf /etc/nginx/conf.d/*
 
 COPY default.conf /etc/nginx/sites.d/default.conf
 # forward request logs to Docker log collector
@@ -41,7 +35,5 @@ VOLUME /var/lib/proxy_cache
 EXPOSE 80 443
 
 STOPSIGNAL SIGTERM
-
-USER nginx
 
 CMD ["nginx", "-g", "daemon off;"]
