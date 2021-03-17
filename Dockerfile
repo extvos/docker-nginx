@@ -1,7 +1,7 @@
 FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 ENV CONSUL_TEMPLATE_VERSION=0.25.2
-RUN apk update && apk add --no-cache nginx nginx-doc \
+RUN apk update && apk add --no-cache nginx nginx-doc runit \
     && apk list -P nginx-mod-* | grep -o '<[a-z0-9-]*>' | sed 's/[<|>]//g' | xargs apk add --no-cache \
     && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
