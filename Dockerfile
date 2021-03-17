@@ -1,7 +1,7 @@
-FROM extvos/alpine:latest
+FROM extvos/alpine:runit
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 ENV CONSUL_TEMPLATE_VERSION=0.25.2
-RUN apk update && apk add --no-cache nginx nginx-doc runit \
+RUN apk update && apk add --no-cache nginx nginx-doc \
     && apk list -P nginx-mod-* | grep -o '<[a-z0-9-]*>' | sed 's/[<|>]//g' | xargs apk add --no-cache \
     && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
@@ -19,23 +19,6 @@ RUN mkdir -p /var/lib/proxy_temp \
 	         /run/nginx/ \
 	         /var/log/nginx \
 	&& rm -rf /etc/nginx/conf.d/* && mkdir /etc/nginx/modules.d
-
-STOPSIGNAL SIGCONT
-
-ENV SERVICE_AVAILABLE_DIR=/etc/sv \
-    SERVICE_ENABLED_DIR=/etc/service
-
-ENV SVDIR=${SERVICE_ENABLED_DIR} \
-    SVWAIT=7
-
-ADD https://rawgit.com/dockage/runit-scripts/master/scripts/installer /opt/
-
-RUN mkdir -p ${SERVICE_AVAILABLE_DIR} ${SERVICE_ENABLED_DIR} \
-    && ln -s ${SERVICE_ENABLED_DIR} /service \
-    && chmod +x /opt/installer \
-    && sync \
-    && /opt/installer \
-    && rm -rf /var/cache/apk/* /opt/installer
 
 ARG CONSULE_RELEASE=https://releases.hashicorp.com/consul-template/0.25.2/consul-template_0.25.2_linux_amd64.tgz
 ENV CONSULE_RELEASE=${CONSULE_RELEASE}
@@ -62,9 +45,7 @@ VOLUME /var/lib/proxy_cache
 VOLUME /var/log/nginx
 
 EXPOSE 80 443
-USER nginx
 
 # Init
-ENTRYPOINT ["/sbin/runit-init"]
-
+#ENTRYPOINT ["/sbin/runit-init"]
 #CMD ["runsvdir", "-P /etc/service"]
