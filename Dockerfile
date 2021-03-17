@@ -50,5 +50,5 @@ VOLUME /var/lib/proxy_cache
 VOLUME /var/log/nginx
 
 EXPOSE 80 443
-
+USER nginx
 CMD ["/sbin/tini", "--", "/entrypoint.sh"]
