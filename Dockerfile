@@ -21,6 +21,22 @@ RUN mkdir -p /var/lib/proxy_temp \
 	&& rm -rf /etc/nginx/conf.d/* && mkdir /etc/nginx/modules.d \
   && chmod +x /entrypoint.sh
 
+STOPSIGNAL SIGCONT
+
+ENV SERVICE_AVAILABLE_DIR=/etc/sv \
+    SERVICE_ENABLED_DIR=/etc/service
+
+ENV SVDIR=${SERVICE_ENABLED_DIR} \
+    SVWAIT=7
+
+ADD https://rawgit.com/dockage/runit-scripts/master/scripts/installer /opt/
+
+RUN mkdir -p ${SERVICE_AVAILABLE_DIR} ${SERVICE_ENABLED_DIR} \
+    && chmod +x /opt/installer \
+    && sync \
+    && /opt/installer \
+    && rm -rf /var/cache/apk/* /opt/installer
+
 ARG CONSULE_RELEASE=https://releases.hashicorp.com/consul-template/0.25.2/consul-template_0.25.2_linux_amd64.tgz
 ENV CONSULE_RELEASE=${CONSULE_RELEASE}
 ADD ${CONSULE_RELEASE} /tmp/consul-template.tgz
@@ -44,4 +60,8 @@ VOLUME /var/log/nginx
 
 EXPOSE 80 443
 USER nginx
-CMD ["runsvdir", "-P /etc/service"]
+
+# Init
+ENTRYPOINT ["/sbin/runit-init"]
+
+#CMD ["runsvdir", "-P /etc/service"]
