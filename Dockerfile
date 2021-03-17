@@ -31,6 +31,7 @@ ENV SVDIR=${SERVICE_ENABLED_DIR} \
 ADD https://rawgit.com/dockage/runit-scripts/master/scripts/installer /opt/
 
 RUN mkdir -p ${SERVICE_AVAILABLE_DIR} ${SERVICE_ENABLED_DIR} \
+    && ln -s ${SERVICE_ENABLED_DIR} /service \
     && chmod +x /opt/installer \
     && sync \
     && /opt/installer \
