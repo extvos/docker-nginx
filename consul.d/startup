@@ -1,5 +1,0 @@
-#!/bin/sh
-
-if [ -n "${CONSUL_ADDR}" ]; then
-    /usr/local/bin/consul-template -consul-addr=${CONSUL_ADDR} -config=/etc/consul.cfg
-fi

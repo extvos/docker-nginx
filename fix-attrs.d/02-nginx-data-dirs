@@ -1,7 +1,0 @@
-/usr/share/nginx/html true nginx 0644 0755
-/etc/nginx/modules.d true nginx 0644 0755
-/etc/nginx/conf.d true nginx 0644 0755
-/etc/nginx/sites.d true nginx 0644 0755
-/var/lib/proxy_temp true nginx 0644 0755
-/var/lib/proxy_cache true nginx 0644 0755
-/var/log/nginx true nginx 0644 0755

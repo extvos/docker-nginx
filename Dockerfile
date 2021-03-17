@@ -1,16 +1,9 @@
 FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 ENV CONSUL_TEMPLATE_VERSION=0.25.2
-RUN apk update && \
-    apk add --no-cache tini nginx \
-						nginx-doc \
-            nginx-mod-http-lua-upstream \
-            nginx-mod-http-lua \
-            nginx-mod-rtmp \
-            nginx-mod-http-image-filter \
-            nginx-mod-http-set-misc \
-            nginx-mod-stream && \
-    mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
+RUN apk update && apk add --no-cache nginx nginx-doc \
+    && apk list -P nginx-mod-* | grep -o '<[a-z0-9-]*>' | sed 's/[<|>]//g' | xargs apk add --no-cache \
+    && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
 ADD nginx.conf /etc/nginx/nginx.conf
 ADD entrypoint.sh /entrypoint.sh
