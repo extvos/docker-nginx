@@ -6,7 +6,6 @@ RUN apk update && apk add --no-cache nginx nginx-doc \
     && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
 
 ADD nginx.conf /etc/nginx/nginx.conf
-ADD entrypoint.sh /entrypoint.sh
 
 RUN mkdir -p /var/lib/proxy_temp \
              /var/lib/proxy_cache \
@@ -26,6 +25,7 @@ ARG CONSULE_RELEASE=https://releases.hashicorp.com/consul-template/0.25.2/consul
 ENV CONSULE_RELEASE=${CONSULE_RELEASE}
 ADD ${CONSULE_RELEASE} /tmp/consul-template.tgz
 
+ADD services.d/ /etc/service
 ADD consul.d/default.cfg /etc/consul.cfg
 ADD default.conf /etc/nginx/sites.d/default.conf
 
@@ -44,4 +44,4 @@ VOLUME /var/log/nginx
 
 EXPOSE 80 443
 USER nginx
-CMD ["/sbin/tini", "--", "/entrypoint.sh"]
+CMD ["runsvdir", "-P /etc/service"]
