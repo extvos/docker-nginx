@@ -45,6 +45,9 @@ ADD services.d/ /etc/service
 ADD consul.d/default.cfg /etc/consul.cfg
 ADD default.conf /etc/nginx/sites.d/default.conf
 
+RUN mkdir /etc/service/nginx/supervise /etc/service/template/supervise \
+    && touch /etc/service/nginx/supervise/lock /etc/service/template/supervise/lock
+
 # forward request logs to Docker log collector
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 RUN tar zxf /tmp/consul-template.tgz -C /usr/local/bin && rm -f /tmp/consul-template.tgz
