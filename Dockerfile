@@ -42,4 +42,6 @@ EXPOSE 80 443
 
 STOPSIGNAL SIGTERM
 
+USER nginx
+
 CMD ["nginx", "-g", "daemon off;"]
