@@ -18,8 +18,7 @@ RUN mkdir -p /var/lib/proxy_temp \
 	         /var/lib/proxy_cache \
 	         /run/nginx/ \
 	         /var/log/nginx \
-	&& rm -rf /etc/nginx/conf.d/* && mkdir /etc/nginx/modules.d \
-  && chmod +x /entrypoint.sh
+	&& rm -rf /etc/nginx/conf.d/* && mkdir /etc/nginx/modules.d
 
 STOPSIGNAL SIGCONT
 
