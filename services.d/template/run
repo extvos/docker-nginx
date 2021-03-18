@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+set -eu
+
+exec 2>&1
+
+COMMAND=/usr/local/bin/consul-template
+PID_FILE=/run/nginx/consul-template.pid
+
+
+if [ -n "${CONSUL_ADDR}" ]; then
+    # Create pid file's directory
+	install -d -o nginx -g nginx ${PID_FILE%/*}
+
+	# Check consule-template command is executable or not
+	test -x ${COMMAND} || exit 0
+
+	exec ${COMMAND} -consul-addr=${CONSUL_ADDR} -config=/etc/consul.cfg -pid-file=${PID_FILE}
+
+fi
+
