@@ -43,7 +43,7 @@ VOLUME /etc/nginx/sites.d
 VOLUME /var/lib/proxy_temp
 VOLUME /var/lib/proxy_cache
 VOLUME /var/log/nginx
-VOLUME /etc/consul.cfg
+VOLUME /etc/consul.d
 
 EXPOSE 80 443
 
