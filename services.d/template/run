@@ -8,7 +8,6 @@ PID_FILE=/run/nginx/consul-template.pid
 
 
 if [ -n "${CONSUL_ADDR}" ]; then
-    /usr/local/bin/consul-template 
     # Create pid file's directory
 	install -d -o nginx -g nginx ${PID_FILE%/*}
 
