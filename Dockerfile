@@ -1,4 +1,4 @@
-FROM extvos/alpine:runit
+FROM extvos/runit:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 ENV CONSUL_TEMPLATE_VERSION=0.25.2
 RUN apk update && apk add --no-cache nginx nginx-doc \
