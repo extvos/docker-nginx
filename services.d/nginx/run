@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -eu
+set -e
 
 exec 2>&1
 
@@ -15,5 +15,6 @@ test -x ${COMMAND} || exit 0
 # Test nginx configuration
 ${COMMAND} -t -q || exit 0
 
+# Start nginx
 exec ${COMMAND} -c /etc/nginx/nginx.conf -g "pid $PID_FILE; daemon off;"
 
