@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -ex
+set -e
 
 exec 2>&1
 
@@ -13,5 +13,7 @@ if [ -n "${CONSUL_ADDR}" ]; then
 	test -x ${COMMAND} || exit 0
 	# Run consul-template
 	exec ${COMMAND} -consul-addr=${CONSUL_ADDR} -config=/etc/consul.cfg -pid-file=${PID_FILE}
+else
+	exit 1
 fi
 
