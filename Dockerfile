@@ -18,8 +18,8 @@ RUN mkdir -p /var/lib/proxy_temp \
 	         /var/lib/proxy_cache \
 	         /run/nginx/ \
 	         /var/log/nginx \
-	&& rm -rf /etc/nginx/conf.d/* && mkdir /etc/nginx/modules.d \
-    && mv /etc/nginx/html /var/lib/nginx/html
+	&& rm -rf /etc/nginx/conf.d/* && mkdir /etc/nginx/modules.d 
+#    && mv /etc/nginx/html /var/lib/nginx/html
 
 
 # forward request logs to Docker log collector
