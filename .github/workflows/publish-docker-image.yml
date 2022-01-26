@@ -14,10 +14,10 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag extvos/nginx:latest
+      run: docker build . --file Dockerfile --tag extvos/nginx:test
 
     - name: Login to Docker Hub
       run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - name: Push to Docker Hub
-      run: docker push extvos/nginx:latest
+      run: docker push extvos/nginx:test
