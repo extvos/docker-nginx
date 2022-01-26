@@ -63,7 +63,7 @@ MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
 COPY --from=builder /sbin/nginx /sbin/nginx
 COPY --from=builder /etc/nginx /etc/nginx
-COPY --from=builder /usr/share/nginx /usr/share/nginx
+#COPY --from=builder /usr/share/nginx /usr/share/nginx
 
 RUN mv /etc/nginx/html /var/lib/nginx/html \
     && mkdir -p /var/log/nginx \
@@ -72,7 +72,7 @@ RUN mv /etc/nginx/html /var/lib/nginx/html \
              /var/lib/cache/nginx/fastcgi_temp \
              /var/lib/cache/nginx/uwsgi_temp \
              /var/lib/cache/nginx/scgi_temp
-    
+
 
 
 VOLUME /etc/nginx/modules.d
