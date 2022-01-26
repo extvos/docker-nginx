@@ -21,7 +21,8 @@ RUN mkdir -p /var/lib/proxy_temp \
     && mv /etc/nginx/http.d /etc/nginx/sites.d \
     && sed -i 's/http.d/sites.d/g' /etc/nginx/nginx.conf \
     && sed -i 's/#include \/etc\/nginx\/conf.d\/\*.conf;/include \/etc\/nginx\/conf.d\/\*.conf;/g' /etc/nginx/nginx.conf \
-    && sed -i 's/\/etc\/nginx\/modules\//\/etc\/nginx\/modules.d\//g' /etc/nginx/nginx.conf
+    && sed -i 's/\/etc\/nginx\/modules\//\/etc\/nginx\/modules.d\//g' /etc/nginx/nginx.conf \ 
+    && ln -s /usr/sbin/nginx /sbin/nginx
 
 
 # forward request logs to Docker log collector
