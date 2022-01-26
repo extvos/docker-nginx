@@ -2,10 +2,9 @@ FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
 RUN apk update && apk add --no-cache nginx nginx-doc \
-    && apk list -P nginx-mod-* | grep -o '<[a-z0-9-]*>' | sed 's/[<|>]//g' | xargs apk add --no-cache \
-    && mv /etc/nginx/nginx.conf /etc/nginx/nginx.conf.orig
+    && apk list -P nginx-mod-* | grep -o '<[a-z0-9-]*>' | sed 's/[<|>]//g' | xargs apk add --no-cache 
 
-ADD nginx.conf /etc/nginx/nginx.conf
+#ADD nginx.conf /etc/nginx/nginx.conf
 
 RUN mkdir -p /var/lib/proxy_temp \
              /var/lib/proxy_cache \
@@ -18,8 +17,11 @@ RUN mkdir -p /var/lib/proxy_temp \
 	         /var/lib/proxy_cache \
 	         /run/nginx/ \
 	         /var/log/nginx \
-	&& rm -rf /etc/nginx/conf.d/* && mkdir /etc/nginx/modules.d 
-#    && mv /etc/nginx/html /var/lib/nginx/html
+	&& rm -rf /etc/nginx/conf.d/* && mkdir /etc/nginx/modules.d \
+    && mv /etc/nginx/http.d /etc/nginx/sites.d \
+    && sed -i 's/http.d/sites.d/g' /etc/nginx/nginx.conf \
+    && sed -i 's/#include \/etc\/nginx\/conf.d\/\*.conf;/include \/etc\/nginx\/conf.d\/\*.conf;/g' /etc/nginx/nginx.conf \
+    && sed -i 's/\/etc\/nginx\/modules\//\/etc\/nginx\/modules.d\//g' /etc/nginx/nginx.conf
 
 
 # forward request logs to Docker log collector
