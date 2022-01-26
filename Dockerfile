@@ -1,4 +1,4 @@
-FROM extvos/alpine-dev:latest
+FROM extvos/alpine-dev:latest AS builder
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 ENV NGINX_VERSION=1.21.6
 ENV NGINX_VOD_MODULE_VERSION=1.29
@@ -17,7 +17,7 @@ RUN cd nginx-${NGINX_VERSION} \
     && ./configure \
         --prefix=/etc/nginx \
         --sbin-path=/sbin/nginx \
-        --modules-path=%{_libdir}/nginx/modules \
+        --modules-path=/usr/share/nginx/modules \
         --conf-path=/etc/nginx/nginx.conf \
         --error-log-path=/var/log/nginx/error.log \
         --http-log-path=/var/log/nginx/access.log \
@@ -57,6 +57,22 @@ RUN cd nginx-${NGINX_VERSION} \
         --add-module=../nginx-vod-module \
     && make && make install
 
+
+FROM extvos/alpine:latest
+MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
+
+COPY --from=builder /sbin/nginx /sbin/nginx
+COPY --from=builder /etc/nginx /etc/nginx
+COPY --from=builder /usr/share/nginx /usr/share/nginx
+
+RUN mv /etc/nginx/html /var/lib/nginx/html \
+    && mkdir -p /var/log/nginx \
+             /var/lib/cache/nginx/client_temp \
+             /var/lib/cache/nginx/proxy_temp \
+             /var/lib/cache/nginx/fastcgi_temp \
+             /var/lib/cache/nginx/uwsgi_temp \
+             /var/lib/cache/nginx/scgi_temp
+    
 
 
 VOLUME /etc/nginx/modules.d
