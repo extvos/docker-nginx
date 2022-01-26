@@ -65,23 +65,6 @@ COPY --from=builder /sbin/nginx /sbin/nginx
 COPY --from=builder /etc/nginx /etc/nginx
 #COPY --from=builder /usr/share/nginx /usr/share/nginx
 
-RUN mv /etc/nginx/html /var/lib/nginx/html \
-    && mkdir -p /var/log/nginx \
-             /var/lib/cache/nginx/client_temp \
-             /var/lib/cache/nginx/proxy_temp \
-             /var/lib/cache/nginx/fastcgi_temp \
-             /var/lib/cache/nginx/uwsgi_temp \
-             /var/lib/cache/nginx/scgi_temp
-
-
-
-VOLUME /etc/nginx/modules.d
-VOLUME /etc/nginx/conf.d
-VOLUME /etc/nginx/sites.d
-VOLUME /var/lib/nginx/html
-VOLUME /var/lib/proxy_temp
-VOLUME /var/lib/proxy_cache
-VOLUME /var/log/nginx
 
 EXPOSE 80 443 1935
 
