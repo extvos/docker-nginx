@@ -40,4 +40,4 @@ VOLUME /var/log/nginx
 EXPOSE 80 443 1935
 
 # Init
-CMD ["/sbin/nginx", "-c /etc/nginx/nginx.conf", "-g 'pid /run/nginx/nginx.pid; daemon off;'"]
+CMD ["/sbin/nginx", "-c", "/etc/nginx/nginx.conf", "-g", "pid /run/nginx/nginx.pid; daemon off;"]
