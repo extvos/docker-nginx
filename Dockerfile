@@ -55,7 +55,7 @@ RUN cd nginx-${NGINX_VERSION} \
         --with-stream_ssl_module \
         --with-stream_ssl_preread_module \
         --add-module=../nginx-rtmp-module \
-        --add-module=../nginx-vod-module
+        --add-module=../nginx-vod-module \
     && make && make install
 
 
