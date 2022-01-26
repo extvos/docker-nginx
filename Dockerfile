@@ -14,7 +14,7 @@ RUN wget https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
 
 
 RUN cd nginx-${NGINX_VERSION} \
-    && ./configure
+    && ./configure \
         --prefix=/etc/nginx \
         --sbin-path=/sbin/nginx \
         --modules-path=%{_libdir}/nginx/modules \
