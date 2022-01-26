@@ -6,7 +6,7 @@ ENV NGINX_RTMP_MODULE_VERSION=v1.2.2
 
 RUN wget https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && tar zxf nginx-${NGINX_VERSION}.tar.gz \
-    && git clone -b ${NGINX_RTMP_MODULE_VERSION}https://github.com/arut/nginx-rtmp-module.git \
+    && git clone -b ${NGINX_RTMP_MODULE_VERSION} https://github.com/arut/nginx-rtmp-module.git \
     && git clone -b ${NGINX_VOD_MODULE_VERSION} https://github.com/kaltura/nginx-vod-module.git
 
 
