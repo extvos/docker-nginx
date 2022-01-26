@@ -5,7 +5,7 @@ ENV NGINX_VOD_MODULE_VERSION=1.29
 ENV NGINX_RTMP_MODULE_VERSION=v1.2.2
 
 RUN apk update \
-    && apk --update add openssl-dev pcre-dev zlib-dev wget build-base 
+    && apk --update add openssl-dev pcre-dev zlib-dev wget build-base libaio
 
 RUN wget https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
     && tar zxf nginx-${NGINX_VERSION}.tar.gz \
