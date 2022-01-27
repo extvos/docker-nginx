@@ -23,11 +23,11 @@ RUN cd nginx-${NGINX_VERSION} \
         --http-log-path=/var/log/nginx/access.log \
         --pid-path=/run/nginx.pid \
         --lock-path=/run/nginx.lock \
-        --http-client-body-temp-path=/var/lib/cache/nginx/client_temp \
-        --http-proxy-temp-path=/var/lib/cache/nginx/proxy_temp \
-        --http-fastcgi-temp-path=/var/lib/cache/nginx/fastcgi_temp \
-        --http-uwsgi-temp-path=/var/lib/cache/nginx/uwsgi_temp \
-        --http-scgi-temp-path=/var/lib/cache/nginx/scgi_temp \
+        --http-client-body-temp-path=/var/cache/nginx/client_temp \
+        --http-proxy-temp-path=/var/cache/nginx/proxy_temp \
+        --http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp \
+        --http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp \
+        --http-scgi-temp-path=/var/cache/nginx/scgi_temp \
         --user=nginx \
         --group=nginx \
         --with-compat \
@@ -61,16 +61,26 @@ RUN cd nginx-${NGINX_VERSION} \
 FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
-RUN apk update \
-    && apk add --no-cache ca-certificates openssl pcre zlib tzdata \
-    && mkdir -p /var/log/nginx/ /var/cache/nginx \
-    && addgroup -S nginx \
-    && adduser -S -D -h /var/cache/nginx -s /sbin/nologin -G nginx nginx
-
 COPY --from=builder /sbin/nginx /sbin/nginx
 COPY --from=builder /etc/nginx /etc/nginx
-#COPY --from=builder /usr/share/nginx /usr/share/nginx
 
+RUN apk update \
+    && apk add --no-cache ca-certificates openssl pcre zlib tzdata \
+    && mkdir -p /var/log/nginx/ /var/cache/nginx /etc/nginx/sites.d /etc/nginx/conf.d /etc/nginx/certs.d \
+    && mv /etc/nginx/html /var/lib/nginx/html \
+    && addgroup -S nginx \
+    && adduser -S -D -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
+    && rm -rf /var/cache/apk/*
+
+ADD nginx.conf /etc/nginx/nginx.conf
+ADD default.conf /etc/nginx/sites.d/default.conf
+
+VOLUME /etc/nginx/sites.d
+VOLUME /etc/nginx/certs.d
+VOLUME /etc/nginx/modules.d
+VOLUME /etc/nginx/conf.d
+VOLUME /var/cache/nginx
+VOLUME /var/lib/nginx/html
 
 EXPOSE 80 443 1935
 
