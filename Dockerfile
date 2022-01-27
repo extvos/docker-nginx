@@ -61,6 +61,8 @@ RUN cd nginx-${NGINX_VERSION} \
 FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
+RUN apk update && apk add --no-cache pcre
+
 COPY --from=builder /sbin/nginx /sbin/nginx
 COPY --from=builder /etc/nginx /etc/nginx
 #COPY --from=builder /usr/share/nginx /usr/share/nginx
