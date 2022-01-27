@@ -61,7 +61,11 @@ RUN cd nginx-${NGINX_VERSION} \
 FROM extvos/alpine:latest
 MAINTAINER  "Mingcai SHEN <archsh@gmail.com>"
 
-RUN apk update && apk add --no-cache pcre
+RUN apk update \
+    && apk add --no-cache ca-certificates openssl pcre zlib tzdata \
+    && mkdir -p /var/log/nginx/ /var/cache/nginx \
+    && addgroup nginx \
+    && adduser -G nginx nginx
 
 COPY --from=builder /sbin/nginx /sbin/nginx
 COPY --from=builder /etc/nginx /etc/nginx
