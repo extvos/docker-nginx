@@ -66,7 +66,7 @@ COPY --from=builder /etc/nginx /etc/nginx
 
 RUN apk update \
     && apk add --no-cache ca-certificates openssl pcre zlib tzdata \
-    && mkdir -p /var/log/nginx/ /var/cache/nginx /etc/nginx/sites.d /etc/nginx/conf.d /etc/nginx/certs.d /var/lib/nginx/html \
+    && mkdir -p /run/nginx /var/log/nginx/ /var/cache/nginx /etc/nginx/sites.d /etc/nginx/conf.d /etc/nginx/certs.d /var/lib/nginx/html \
     && addgroup -S nginx \
     && adduser -S -D -h /var/cache/nginx -s /sbin/nologin -G nginx nginx \
     && rm -rf /var/cache/apk/*
